@@ -4,8 +4,14 @@
 @php($e = $porEstado)
 <header class="top">
   <div><h1>Hola, {{ \Illuminate\Support\Str::before(auth()->user()->name, ' ') }}</h1><p class="sub">Esto es lo que necesita atención hoy, {{ now()->translatedFormat('l j \d\e F') }}.</p></div>
-  <a class="btn pri" href="{{ route('preafiliaciones.create') }}">+ Nueva pre-afiliación</a>
+  <a class="btn pri" href="{{ route('preafiliaciones.create') }}">@include('partials.icono', ['i' => 'mas', 'tam' => 16]) Nueva afiliación</a>
 </header>
+<div class="acciones">
+  <button type="button" class="accion ia-acc" data-abrir-ia><span class="ic">@include('partials.icono', ['i' => 'chispa'])</span><span><b>Pregúntale a la IA</b><small>«¿Qué requiere atención hoy?»</small></span></button>
+  <a class="accion" href="{{ route('preafiliaciones.create') }}"><span class="ic">@include('partials.icono', ['i' => 'nuevo'])</span><span><b>Afiliar a un empleado</b><small>FUA en 5 pasos</small></span></a>
+  <a class="accion" href="{{ route('incapacidades.create') }}"><span class="ic">@include('partials.icono', ['i' => 'pulso'])</span><span><b>Registrar incapacidad</b><small>Calcula el recobro al instante</small></span></a>
+  @if(auth()->user()->esInterno())<a class="accion" href="{{ route('ventas.create') }}"><span class="ic">@include('partials.icono', ['i' => 'venta'])</span><span><b>Nueva venta</b><small>Plan para independiente</small></span></a>@endif
+</div>
 <div class="kpis">
   <a class="kpi" href="{{ route('preafiliaciones.index') }}"><span class="l">Radicados</span><span class="v">{{ $total }}</span><span class="d">en total</span></a>
   <a class="kpi warn" href="{{ route('preafiliaciones.index', ['estado' => 'pendiente']) }}"><span class="l">Pendientes</span><span class="v">{{ ($e['pendiente'] ?? 0) + ($e['revision'] ?? 0) }}</span><span class="d">esperando entidad</span></a>

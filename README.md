@@ -13,6 +13,8 @@ Hecha en Laravel 13 (PHP 8.3) con vistas Blade, sin paso de compilación de fron
 - **Consulta de afiliados**, **Traslados** con seguimiento, **Reportes** con estadísticas y descarga CSV para Excel.
 - **Incapacidades**: registro, prórrogas con días acumulados, cálculo de lo que paga el empleador y lo que se recobra, seguimiento del cobro (radicada, aprobada, pagada, rechazada) y soportes.
 - **Ventas y cobro**: planes para independientes (EPS, AFP, ARL, CCF), tarifario anual por nivel de riesgo calculado desde el salario mínimo, ventas, cuotas mensuales, recibos de caja imprimibles con consecutivo por sede, registro de pagos, anulaciones y retiros. Los porcentajes están en `config/aportes.php`.
+- **Asistente de IA** (Claude, de Anthropic): responde preguntas sobre los datos de la app con herramientas de solo lectura que respetan los permisos de cada usuario. Se activa pegando una clave de API en Configuración (se guarda cifrada) o con `ANTHROPIC_API_KEY` en `.env`. Límite diario en `APORTES_IA_LIMITE_DIARIO` (150 por defecto).
+- **Búsqueda global** con `Ctrl K`: personas, radicados, incapacidades, empresas y ventas, más accesos rápidos y preguntas a la IA. Modo claro y oscuro.
 - **Calculadora de incapacidades**.
 - **Sedes y empresas**: NIT, CIIU, cargos con nivel de riesgo ARL y entidades habituales.
 - **Usuarios y roles**: administrador, operador y empresa cliente (solo ve lo de su empresa).

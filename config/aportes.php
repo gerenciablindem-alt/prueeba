@@ -21,4 +21,7 @@ return [
     'dia_limite_pago' => (int) env('APORTES_DIA_LIMITE', 10),
     // Prefijo de los recibos de caja.
     'prefijo_recibo' => env('APORTES_PREFIJO_RECIBO', 'RC'),
+
+    // Asistente de IA: máximo de preguntas por día entre todos los usuarios (controla el gasto).
+    'ia_limite_diario' => (int) env('APORTES_IA_LIMITE_DIARIO', 150),
 ];

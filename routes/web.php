@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AfiliadoController;
+use App\Http\Controllers\AsistenteController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfiguracionController;
@@ -32,6 +33,12 @@ Route::middleware(['auth', 'rol'])->group(function () {
     Route::get('/alertas', [DashboardController::class, 'alertas'])->name('alertas');
     Route::get('/perfil', [AuthController::class, 'perfil'])->name('perfil');
     Route::put('/perfil', [AuthController::class, 'actualizarPerfil'])->name('perfil.update');
+    Route::get('/buscar', [DashboardController::class, 'buscar'])->name('buscar');
+
+    // Asistente de IA
+    Route::get('/asistente', [AsistenteController::class, 'index'])->name('asistente.index');
+    Route::post('/asistente/mensaje', [AsistenteController::class, 'mensaje'])->middleware('throttle:20,1')->name('asistente.mensaje');
+    Route::post('/asistente/reiniciar', [AsistenteController::class, 'reiniciar'])->name('asistente.reiniciar');
 
     // Afiliaciones
     Route::get('/preafiliaciones', [PreafiliacionController::class, 'index'])->name('preafiliaciones.index');
@@ -102,5 +109,6 @@ Route::middleware(['auth', 'rol'])->group(function () {
         Route::post('/tarifarios', [TarifarioController::class, 'store'])->name('tarifarios.store');
         Route::post('/tarifarios/{tarifario}/publicar', [TarifarioController::class, 'publicar'])->name('tarifarios.publicar');
         Route::post('/planes', [TarifarioController::class, 'guardarPlan'])->name('planes.store');
+        Route::post('/configuracion/ia', [AsistenteController::class, 'guardarClave'])->name('configuracion.ia');
     });
 });
