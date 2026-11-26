@@ -1,0 +1,10 @@
+# Hostinger / hosting compartido: envía todas las peticiones a la carpeta public/
+# para que .env, el código y la base de datos nunca queden expuestos.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(\.|vendor|storage|database|app|config|routes|resources|bootstrap|tests|scripts)(/|$) - [F,L]
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
