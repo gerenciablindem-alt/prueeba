@@ -4,13 +4,17 @@ use App\Http\Controllers\AfiliadoController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\IncapacidadController;
 use App\Http\Controllers\PreafiliacionController;
+use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\TarifarioController;
 use App\Http\Controllers\TrasladoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -68,6 +72,20 @@ Route::middleware(['auth', 'rol'])->group(function () {
         Route::post('/empresas/{empresa}/cargos', [EmpresaController::class, 'agregarCargo'])->name('empresas.cargos.store');
         Route::delete('/cargos/{cargo}', [EmpresaController::class, 'quitarCargo'])->name('cargos.destroy');
         Route::post('/sedes', [EmpresaController::class, 'guardarSede'])->name('sedes.store');
+
+        // Ventas de planes, cuotas y recibos
+        Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+        Route::get('/ventas/crear', [VentaController::class, 'create'])->name('ventas.create');
+        Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+        Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.show');
+        Route::post('/ventas/{venta}/retiro', [VentaController::class, 'retirar'])->name('ventas.retirar');
+        Route::get('/cuotas', [CuotaController::class, 'index'])->name('cuotas.index');
+        Route::post('/cuotas/generar', [CuotaController::class, 'generar'])->name('cuotas.generar');
+        Route::post('/cuotas/{cuota}/recibo', [CuotaController::class, 'emitirRecibo'])->name('cuotas.recibo');
+        Route::get('/recibos', [ReciboController::class, 'index'])->name('recibos.index');
+        Route::get('/recibos/{recibo}', [ReciboController::class, 'show'])->name('recibos.show');
+        Route::post('/recibos/{recibo}/pago', [ReciboController::class, 'pagar'])->name('recibos.pagar');
+        Route::get('/tarifarios', [TarifarioController::class, 'index'])->name('tarifarios.index');
     });
 
     // Administración
@@ -80,5 +98,9 @@ Route::middleware(['auth', 'rol'])->group(function () {
         Route::put('/usuarios/{usuario}', [UsuarioController::class, 'update'])->name('usuarios.update');
         Route::get('/configuracion', [ConfiguracionController::class, 'edit'])->name('configuracion.edit');
         Route::put('/configuracion', [ConfiguracionController::class, 'update'])->name('configuracion.update');
+        Route::post('/recibos/{recibo}/anular', [ReciboController::class, 'anular'])->name('recibos.anular');
+        Route::post('/tarifarios', [TarifarioController::class, 'store'])->name('tarifarios.store');
+        Route::post('/tarifarios/{tarifario}/publicar', [TarifarioController::class, 'publicar'])->name('tarifarios.publicar');
+        Route::post('/planes', [TarifarioController::class, 'guardarPlan'])->name('planes.store');
     });
 });

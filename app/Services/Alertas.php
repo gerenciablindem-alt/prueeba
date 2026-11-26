@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Cuota;
 use App\Models\Empresa;
 use App\Models\Incapacidad;
 use App\Models\Preafiliacion;
@@ -42,6 +43,14 @@ class Alertas
             ->where('updated_at', '<=', now()->subDays($dias))->get()
             ->each(fn ($t) => $a->push($this->alerta('warn', "Traslado de {$t->afiliado->nombre_completo} sin movimiento",
                 "{$t->tipo} · solicitado el {$t->fecha_solicitud->format('d/m/Y')}", route('traslados.index'))));
+
+        if ($u->esInterno()) {
+            $vencidas = Cuota::where('estado', 'pendiente')->whereDate('fecha_limite', '<', today())->get();
+            if ($vencidas->isNotEmpty()) {
+                $a->push($this->alerta('warn', $vencidas->count().' cuotas vencidas sin pagar',
+                    pesos($vencidas->sum('valor')).' por cobrar a clientes de ventas', route('cuotas.index', ['periodo' => $vencidas->min('periodo')->format('Y-m'), 'estado' => 'vencida'])));
+            }
+        }
 
         Empresa::visiblesPara($u)->withCount('cargos')->where('activa', true)->get()
             ->filter(fn ($e) => $e->datosFaltantes())

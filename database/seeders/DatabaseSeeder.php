@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(EntidadesSeeder::class);
+        $this->call(PlanesSeeder::class);
 
         $sede = Sede::firstOrCreate(['nombre' => env('SEDE_PRINCIPAL', 'Sede principal')], [
             'tipo_documento' => 'NIT', 'documento' => '000000000', 'departamento' => 'Valle del Cauca', 'ciudad' => 'Cali',

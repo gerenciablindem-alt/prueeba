@@ -33,6 +33,12 @@
       @if($u->esInterno())
       <div class="grp">Clientes</div>
       <a href="{{ route('empresas.index') }}" @class(['on' => request()->routeIs('empresas.*')])>Sedes y empresas</a>
+      <div class="grp">Ventas y cobro</div>
+      <a href="{{ route('ventas.create') }}" @class(['on' => request()->routeIs('ventas.create')])>Nueva venta</a>
+      <a href="{{ route('ventas.index') }}" @class(['on' => request()->routeIs('ventas.index', 'ventas.show')])>Ventas</a>
+      <a href="{{ route('cuotas.index') }}" @class(['on' => request()->routeIs('cuotas.*')])>Cuotas del mes</a>
+      <a href="{{ route('recibos.index') }}" @class(['on' => request()->routeIs('recibos.*')])>Recibos</a>
+      <a href="{{ route('tarifarios.index') }}" @class(['on' => request()->routeIs('tarifarios.*')])>Planes y tarifas</a>
       @endif
       @if($u->esAdmin())
       <div class="grp">Administración</div>

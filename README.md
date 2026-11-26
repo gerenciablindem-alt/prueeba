@@ -12,6 +12,7 @@ Hecha en Laravel 13 (PHP 8.3) con vistas Blade, sin paso de compilación de fron
 - **Radicados**: filtros por estado, entidad y empresa, días en el estado actual, cambio de estado con motivo obligatorio al devolver o rechazar, documentos e historial.
 - **Consulta de afiliados**, **Traslados** con seguimiento, **Reportes** con estadísticas y descarga CSV para Excel.
 - **Incapacidades**: registro, prórrogas con días acumulados, cálculo de lo que paga el empleador y lo que se recobra, seguimiento del cobro (radicada, aprobada, pagada, rechazada) y soportes.
+- **Ventas y cobro**: planes para independientes (EPS, AFP, ARL, CCF), tarifario anual por nivel de riesgo calculado desde el salario mínimo, ventas, cuotas mensuales, recibos de caja imprimibles con consecutivo por sede, registro de pagos, anulaciones y retiros. Los porcentajes están en `config/aportes.php`.
 - **Calculadora de incapacidades**.
 - **Sedes y empresas**: NIT, CIIU, cargos con nivel de riesgo ARL y entidades habituales.
 - **Usuarios y roles**: administrador, operador y empresa cliente (solo ve lo de su empresa).

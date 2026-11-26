@@ -104,6 +104,7 @@ class DemoSeeder extends Seeder
             ]);
         }
         auth()->logout();
+        $this->call(VentasDemoSeeder::class);
         $this->command?->info('Datos de demostración cargados. Entra con demo@example.com / demo12345 (admin) o empresa@example.com / demo12345 (empresa).');
     }
 }

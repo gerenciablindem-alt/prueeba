@@ -8,6 +8,9 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /** Súbelo cuando el demo necesite tablas o datos nuevos; el servidor se actualiza solo. */
+    private const VERSION_DEMO = '2';
+
     public function register(): void
     {
         //
@@ -26,16 +29,20 @@ class AppServiceProvider extends ServiceProvider
     private function prepararDemo(): void
     {
         $listo = storage_path('app/demo/listo');
-        if (is_file($listo)) {
+        $version = fn () => is_file($listo) ? (str_contains((string) file_get_contents($listo), 'v'.self::VERSION_DEMO.' ') ? 'actual' : 'vieja') : 'ninguna';
+        if ($version() === 'actual') {
             return;
         }
         $lock = fopen(storage_path('app/demo/instalando.lock'), 'c');
         flock($lock, LOCK_EX);
         try {
-            if (! is_file($listo)) {
+            $v = $version();
+            if ($v !== 'actual') {
                 Artisan::call('migrate', ['--force' => true]);
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\DemoSeeder::class, '--force' => true]);
-                file_put_contents($listo, now()->toIso8601String());
+                // Instalación nueva: todos los datos. Demo existente: solo lo que agregó la versión nueva.
+                $seeder = $v === 'ninguna' ? \Database\Seeders\DemoSeeder::class : \Database\Seeders\VentasDemoSeeder::class;
+                Artisan::call('db:seed', ['--class' => $seeder, '--force' => true]);
+                file_put_contents($listo, 'v'.self::VERSION_DEMO.' '.now()->toIso8601String());
             }
         } finally {
             flock($lock, LOCK_UN);
